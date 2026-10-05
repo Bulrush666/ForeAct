@@ -1,0 +1,74 @@
+# Offline MoGe-3 teacher-cache configuration for Fractal/RT-1 LeRobot v2.
+# This is inference/precomputation only; it does not train MoGe-3.
+
+paths:
+  python_bin: ../../../.venv-moge/bin/python
+  moge_source_dir: ../../../third_party/MoGe-3
+  flex_gemm_source_dir: ../../../third_party/FlexGEMM
+  checkpoint: ../../../pretrained/moge3/moge-3-vitg.pt
+
+  dataset_root: ../../../data/fractal20220817_data_0.1.0_lerobot
+  output_root: ../../../outputs/depth/fractal_next1_moge3
+
+data:
+  dataset_name: fractal20220817_data_0.1.0_lerobot
+  # Dataset feature: observation.images.image (the only RGB camera).
+  camera: image
+  horizon: 1
+  # Sample t reads depth[min(t + 1, episode_length - 1)].
+  tail_policy: repeat_last
+
+preprocess:
+  # Match the VLA input path:
+  # source 256x320 -> observation 224x224 -> Cosmos/MoGe input 320x576.
+  observation_size: [224, 224]
+  model_size: [320, 576]
+
+teacher:
+  family: MoGe-3
+  variant: vitg
+  resolution_level: 9
+  refine_steps: 3
+  use_fp16: true
+  apply_mask: true
+  # Lower this first if another job shares the GPUs or a kernel/OOM error occurs.
+  batch_size_per_gpu: 12
+
+distributed:
+  num_workers: 8
+  gpu_ids: [0, 1, 2, 3, 4, 5, 6, 7]
+  shard_strategy: episode_modulo
+  # Avoid eight simultaneous checkpoint reads from saturating local storage.
+  stagger_seconds: 20
+
+storage:
+  format_version: 2
+  layout: episode_npz_in_lerobot_chunks
+  episodes_per_directory: 1000
+  compression: npz_deflate
+  depth_dtype: float16
+  depth_unit: meter
+  invalid_depth_value: 0.0
+  save_valid_mask: true
+  save_available_frames: true
+  save_intrinsics: true
+  atomic_write: true
+
+runtime:
+  seed: 42
+  resume: true
+  fail_fast: false
+  log_every_episodes: 10
+  offline: true
+
+training_contract:
+  input_frame: t
+  action_indices: [0, 15]
+  depth_frame_offsets: [1]
+  depth_target_formula: "min(t + 1, episode_length - 1)"
+  cache_depth_is_metric: true
+  normalize_during_training: true
+  recommended_normalization: genception_median_log
+  recommended_initial_loss: latent_mse_plus_weak_pixel_gradient
+  recommended_initial_depth_weight: 0.01
+  log_padded_and_non_padded_losses_separately: true

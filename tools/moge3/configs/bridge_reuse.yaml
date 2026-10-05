@@ -1,0 +1,87 @@
+# Offline MoGe-3 teacher-cache configuration for Bridge.
+# Despite the filename, this stage performs inference/precomputation only.
+
+paths:
+  # This venv inherits foreact6 packages but supplies the MoGe3-compatible
+  # Triton/utils3d overrides. Full ViT-g refine_steps=3 inference was verified.
+  python_bin: ../../../.venv-moge/bin/python
+
+  # Copy these source trees and edit the paths when moving to another offline server.
+  # They are inserted into PYTHONPATH; no pip install and no network download is required.
+  moge_source_dir: ../../../third_party/MoGe-3
+  flex_gemm_source_dir: ../../../third_party/FlexGEMM
+
+  checkpoint: ../../../pretrained/moge3/moge-3-vitg.pt
+  dataset_root: ../../../data/bridge_orig_1.0.0_lerobot
+  output_root: ../../../data/depth/bridge_next1_moge3_reuse
+  reuse_cache_root: ../../../data/depth/bridge_t16_moge3
+
+data:
+  dataset_name: bridge_orig_1.0.0_lerobot
+  camera: image_0
+  horizon: 1
+  reuse_horizon: 16
+
+  # The target for sample t is depth[min(t + 1, episode_length - 1)].
+  # Thus episode tails reuse the last real depth frame, matching padded chunks.
+  tail_policy: repeat_last
+
+preprocess:
+  # Must match the VLA pipeline exactly:
+  # source 256x256 -> observation 224x224 -> Cosmos/MoGe input 320x576.
+  observation_size: [224, 224]
+  model_size: [320, 576]
+
+teacher:
+  family: MoGe-3
+  variant: vitg
+  resolution_level: 9
+  refine_steps: 3
+  use_fp16: true
+  apply_mask: true
+
+  # Safe setting for a 50 GB ViT-g checkpoint on each 96 GB H20.
+  # Four workers each process one image at a time: aggregate concurrency is 4 images.
+  batch_size_per_gpu: 1
+
+distributed:
+  num_workers: 4
+  gpu_ids: [0, 1, 2, 3]
+
+  # Each worker receives episode_index % 4 == shard_id.
+  shard_strategy: episode_modulo
+
+  # Avoid four simultaneous 50 GB checkpoint reads from saturating storage.
+  stagger_seconds: 20
+
+storage:
+  format_version: 2
+  layout: episode_npz_in_lerobot_chunks
+  episodes_per_directory: 1000
+  compression: npz_deflate
+  depth_dtype: float16
+  depth_unit: meter
+  invalid_depth_value: 0.0
+  save_valid_mask: true
+  save_available_frames: true
+  save_intrinsics: true
+  atomic_write: true
+
+runtime:
+  seed: 42
+  resume: true
+  fail_fast: false
+  log_every_episodes: 10
+  offline: true
+
+training_contract:
+  # These fields document how the later VLA dataloader must consume this cache.
+  input_frame: t
+  action_indices: [0, 15]
+  depth_target_formula: "min(t + 1, episode_length - 1)"
+  cache_depth_is_metric: true
+  normalize_during_training: true
+  recommended_normalization: genception_median_log
+  recommended_initial_loss: latent_mse_plus_weak_pixel_gradient
+  recommended_initial_depth_weight: 0.01
+  log_padded_and_non_padded_losses_separately: true

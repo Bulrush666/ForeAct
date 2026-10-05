@@ -1,0 +1,34 @@
+schema_version: 1
+benchmark: LIBERO
+checkpoint:
+  step: 100000
+  path: checkpoints/libero/steps_100000_pytorch_model.pt
+model:
+  precision: bfloat16
+  denoising_steps: 10
+  seed: 42
+  action_seed: 42
+  action_chunk_size: 8
+  depth_decoder_at_inference: false
+policy:
+  action_ensemble: false
+  unnorm_key: franka
+observation:
+  cameras: [agentview_image]
+  use_state: false
+  render_size: [256, 256]
+  rotate_180: true
+  client_resize: [224, 224]
+evaluation:
+  seed: 42
+  suites: [libero_spatial, libero_object, libero_goal, libero_10]
+  tasks_per_suite: 10
+  episodes_per_task: 50
+  total_episodes: 2000
+  stabilization_steps: 10
+results:
+  libero_spatial: {successes: 492, episodes: 500}
+  libero_object: {successes: 494, episodes: 500}
+  libero_goal: {successes: 486, episodes: 500}
+  libero_10: {successes: 459, episodes: 500}
+  overall: {successes: 1931, episodes: 2000, percent: 96.55}

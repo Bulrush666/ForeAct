@@ -1,0 +1,31 @@
+schema_version: 1
+benchmark: SimplerEnv-Bridge
+checkpoint:
+  step: 50000
+  path: checkpoints/simplerenv_bridge/steps_50000_pytorch_model.pt
+model:
+  denoising_steps: 4
+  seed: 7
+  action_seed: 7
+  action_chunk_size: 16
+policy:
+  setup: widowx_bridge
+  unnorm_key: oxe_bridge
+  action_scale: 1.091
+  action_ensemble: true
+  ensemble_horizon: 13
+  ensemble_alpha: 0.1
+  image_size: [224, 224]
+evaluation:
+  seed: 7
+  control_frequency: 5
+  simulation_frequency: 500
+  max_episode_steps: 120
+  episodes_per_task: 24
+  fresh_policy_server_per_task: true
+results:
+  spoon_on_towel: {successes: 21, episodes: 24}
+  carrot_on_plate: {successes: 13, episodes: 24}
+  stack_blocks: {successes: 3, episodes: 24}
+  eggplant_in_basket: {successes: 24, episodes: 24}
+  overall: {successes: 61, episodes: 96, percent: 63.5416666667}

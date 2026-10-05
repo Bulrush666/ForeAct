@@ -1,0 +1,92 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "foreact"
+authors = [
+    {name = "Jiaxi Zhang"},
+    {name = "Yunheng Wang"},
+]
+description = "Future-geometry learning for efficient vision-language-action control."
+version = "0.1.0"
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = [
+    "vision-language-action",
+    "robot manipulation",
+    "world models",
+    "future geometry",
+    "robot learning",
+]
+license = {file = "LICENSE"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=24.2.0",
+    "gpustat",
+    "ipython",
+    "pre-commit",
+    "pytest>=8.0",
+    "ruff>=0.2.2",
+]
+
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = [
+    "tests",         # test directory
+    "tests.*",
+    "cache",         # cache directory
+    "cache.*",
+    "playground",    # playground directory (contains symlinks to Datasets, Models)
+    "playground.*",
+    "results",       # result directory
+    "results.*",
+    "checkpoints",   # model checkpoint
+    "checkpoints.*",
+    "scripts",       # script directory
+    "scripts.*",
+    "eval",          # evaluation related directory
+    "eval.*",
+    "assets",        # assets directory
+    "assets.*",
+    "**bar**",           # bar directory
+    "bar.*",
+    ".vscode",       # VS Code configuration directory
+    "*.egg-info",    # egg-info metadata directory
+    "**__pycache__**",   # Python cache directory
+    "*.pyc",         # compiled Python file
+    "*.pyo",         # optimized Python file
+    "foreact.egg-info",
+    "foreact.egg-info.*",
+    "foreact.config",
+    "foreact.config.*",
+]
+
+[tool.black]
+line-length = 121
+target-version = ["py310"]
+preview = true
+
+[tool.ruff]
+line-length = 121
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["A", "B", "E", "F", "I", "RUF", "W"]
+ignore = ["F722"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402", "F401"]

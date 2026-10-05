@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+title: ForeAct
+message: >-
+  If you use this software, please cite the accompanying ForeAct paper and this
+  repository.
+type: software
+authors:
+  - family-names: Zhang
+    given-names: Jiaxi
+  - family-names: Wang
+    given-names: Yunheng
+abstract: >-
+  ForeAct is a geometry-aware vision-language-action policy that uses a
+  pretrained video world model for single-pass visual representation learning
+  and next-frame relative-depth supervision for future-geometry learning.
+keywords:
+  - vision-language-action
+  - robot-learning
+  - world-models
+  - future-geometry
+version: 0.1.0
+date-released: '2026-10-06'

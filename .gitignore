@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Environments and local credentials
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+env/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Local research assets
+data/
+pretrained/
+checkpoints/
+outputs/
+results/
+logs/
+wandb/
+playground/
+local_deploy/data/
+.codex_backups/
+
+# Generated artifacts
+*.pt
+*.pth
+*.ckpt
+*.crswap
+*.safetensors
+*.npy
+*.npz
+*.parquet
+*.mp4
+*.log
+*.tmp
+
+# Scratch directories
+tmp/
+temp/
+bar/
+**/bar/
+
+# Local agent instructions
+AGENTS.md

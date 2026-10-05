@@ -1,0 +1,12 @@
+# Historical MoGe venv versions, NOT a guarantee about any foreact6 install.
+# Audit list only; do not blindly pip-install/upgrade on the offline server.
+torch==2.6.0
+triton==3.4.0
+av==12.3.0
+opencv-python==4.11.0.86
+numpy==1.26.4
+Pillow
+PyYAML
+pyarrow
+
+# MoGe-3 and FlexGEMM are loaded from paths in configs/*.yaml.

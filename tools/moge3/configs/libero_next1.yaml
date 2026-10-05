@@ -1,0 +1,80 @@
+# Offline MoGe-3 teacher-cache configuration for LIBERO LeRobot v3.0.
+# This stage performs inference/precomputation only.
+
+paths:
+  python_bin: ../../../.venv-moge/bin/python
+  moge_source_dir: ../../../third_party/MoGe-3
+  flex_gemm_source_dir: ../../../third_party/FlexGEMM
+  checkpoint: ../../../pretrained/moge3/moge-3-vitg.pt
+
+  # Root containing the four LeRobot v3.0 suite directories.
+  dataset_root: ../../../data/libero/lerobot_v30
+  output_root: ../../../data/depth/libero_next1_moge3
+
+data:
+  dataset_format: lerobot_v3
+  suites:
+    - libero_10_no_noops_lerobot
+    - libero_goal_no_noops_lerobot
+    - libero_object_no_noops_lerobot
+    - libero_spatial_no_noops_lerobot
+
+  # Main/agent view. To generate wrist depth, use a separate output_root and
+  # change this to observation.images.wrist_image.
+  camera: observation.images.image
+  horizon: 1
+  tail_policy: repeat_last
+
+preprocess:
+  # Match the VLA path: LIBERO 512x512 -> observation 224x224 ->
+  # Cosmos/MoGe input 320x576.
+  observation_size: [224, 224]
+  model_size: [320, 576]
+
+teacher:
+  family: MoGe-3
+  variant: vitg
+  resolution_level: 9
+  refine_steps: 3
+  use_fp16: true
+  apply_mask: true
+
+  # Batch 12 was previously verified on the large-memory remote GPUs. Reduce
+  # this first if the MoGe/FlexGEMM stack reports OOM or a kernel-size limit.
+  batch_size_per_gpu: 12
+
+distributed:
+  num_workers: 8
+  gpu_ids: [0, 1, 2, 3, 4, 5, 6, 7]
+  shard_strategy: greedy_video_file_frames
+  stagger_seconds: 20
+
+storage:
+  format_version: 2
+  layout: episode_npz_in_lerobot_chunks
+  episodes_per_directory: 1000
+  compression: npz_deflate
+  depth_dtype: float16
+  depth_unit: meter
+  invalid_depth_value: 0.0
+  save_valid_mask: true
+  save_available_frames: true
+  save_intrinsics: true
+  atomic_write: true
+
+runtime:
+  seed: 42
+  resume: true
+  fail_fast: false
+  log_every_episodes: 10
+  offline: true
+
+training_contract:
+  input_frame: t
+  depth_target_formula: "min(t + 1, episode_length - 1)"
+  cache_depth_is_metric: true
+  normalize_during_training: true
+  recommended_normalization: genception_median_log
+  recommended_initial_loss: latent_mse_plus_weak_pixel_gradient
+  recommended_initial_depth_weight: 0.01
+  cache_layout: "cache/<suite>/chunk-NNN/episode_NNNNNN.npz"

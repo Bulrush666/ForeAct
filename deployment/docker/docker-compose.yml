@@ -1,0 +1,49 @@
+services:
+  policy-server:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/Dockerfile.server
+    image: foreact-server:latest
+    ports:
+      - "5678:5678"
+    volumes:
+      - ${CHECKPOINT_DIR:?Set CHECKPOINT_DIR}:/checkpoints:ro
+      - ${COSMOS_DIR:?Set COSMOS_DIR}:/workspace/ForeAct/pretrained/cosmos2:ro
+    command:
+      - "--ckpt_path"
+      - "/checkpoints/${CKPT_FILE:-steps_50000_pytorch_model.pt}"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "5678"
+      - "--use_bf16"
+      - "--idle_timeout"
+      - "-1"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  train:
+    profiles: ["train"]
+    build:
+      context: ../..
+      dockerfile: deployment/docker/Dockerfile.train
+    image: foreact-train:latest
+    working_dir: /workspace/ForeAct
+    volumes:
+      - ${COSMOS_DIR:?Set COSMOS_DIR}:/workspace/ForeAct/pretrained/cosmos2:ro
+      - ${DATA_DIR:?Set DATA_DIR}:/workspace/ForeAct/data:ro
+      - ${OUTPUT_DIR:-../../outputs}:/workspace/ForeAct/outputs
+    shm_size: ${TRAIN_SHM_SIZE:-16g}
+    command: ${TRAIN_COMMAND:-bash}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
