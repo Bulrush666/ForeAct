@@ -1,4 +1,4 @@
-# Offline MoGe-3 depth preprocessing
+# Offline MoGe-3 Depth Preprocessing
 
 This directory builds metric-depth caches used only during ForeAct training.
 MoGe-3, FlexGEMM, model weights, datasets, and generated caches are external
@@ -28,13 +28,15 @@ Edit the path fields before launching:
 - `paths.dataset_root`
 - `paths.output_root`
 
-The default public configurations are:
+Each dataset has one explicit configuration and one launcher. Worker count and
+GPU assignment are read from the configuration rather than encoded in the
+launcher filename.
 
 | Dataset | Configuration | Launcher |
 | --- | --- | --- |
-| Bridge | `configs/train.yaml` | `launch_precompute_4gpu.py` |
-| LIBERO v3 | `configs/libero_next1.yaml` | `launch_precompute_libero_8gpu.py` |
-| Fractal / RT-1 | `configs/fractal_next1.yaml` | `launch_precompute_fractal_8gpu.py` |
+| Bridge | `configs/bridge_next1.yaml` | `launch_bridge.py` |
+| LIBERO v3 | `configs/libero_next1.yaml` | `launch_libero.py` |
+| Fractal / RT-1 | `configs/fractal_next1.yaml` | `launch_fractal.py` |
 
 The configured output roots match the training defaults under `data/depth/`.
 GPU IDs, worker count, and batch size are examples and must be adjusted to the
@@ -45,17 +47,17 @@ entries in `distributed.gpu_ids`.
 
 ```bash
 MOGE_PY=/path/to/moge3-env/bin/python
-"$MOGE_PY" tools/moge3/launch_precompute_4gpu.py \
-  --config tools/moge3/configs/train.yaml --dry-run
-"$MOGE_PY" tools/moge3/launch_precompute_4gpu.py \
-  --config tools/moge3/configs/train.yaml
+"$MOGE_PY" tools/moge3/launch_bridge.py \
+  --config tools/moge3/configs/bridge_next1.yaml --dry-run
+"$MOGE_PY" tools/moge3/launch_bridge.py \
+  --config tools/moge3/configs/bridge_next1.yaml
 "$MOGE_PY" tools/moge3/validate_depth_cache.py \
-  --config tools/moge3/configs/train.yaml
+  --config tools/moge3/configs/bridge_next1.yaml
 ```
 
-`configs/bridge_reuse.yaml` is an optional migration recipe for deriving a
+`configs/bridge_next1_reuse.yaml` is an optional migration recipe for deriving a
 `t+1` cache from an existing `t+16` cache. Set `paths.reuse_cache_root` to the
-old cache and use `launch_precompute_reuse_8gpu.py`. It always writes to a new
+old cache and use `launch_bridge_reuse.py`. It always writes to a new
 output root and never overwrites the source cache.
 
 ## LIBERO
@@ -64,9 +66,9 @@ output root and never overwrites the source cache.
 MOGE_PY=/path/to/moge3-env/bin/python
 "$MOGE_PY" tools/moge3/check_libero_setup.py \
   --config tools/moge3/configs/libero_next1.yaml
-"$MOGE_PY" tools/moge3/launch_precompute_libero_8gpu.py \
+"$MOGE_PY" tools/moge3/launch_libero.py \
   --config tools/moge3/configs/libero_next1.yaml --dry-run
-"$MOGE_PY" tools/moge3/launch_precompute_libero_8gpu.py \
+"$MOGE_PY" tools/moge3/launch_libero.py \
   --config tools/moge3/configs/libero_next1.yaml
 "$MOGE_PY" tools/moge3/validate_libero_depth_cache.py \
   --config tools/moge3/configs/libero_next1.yaml
@@ -79,8 +81,12 @@ python scripts/check_libero_data.py
 bash scripts/train_libero.sh --dry-run
 ```
 
-## Lightweight tests
+## Fractal / RT-1
 
 ```bash
-python -m unittest discover -s tools/moge3/tests -v
+MOGE_PY=/path/to/moge3-env/bin/python
+"$MOGE_PY" tools/moge3/launch_fractal.py \
+  --config tools/moge3/configs/fractal_next1.yaml --dry-run
+"$MOGE_PY" tools/moge3/launch_fractal.py \
+  --config tools/moge3/configs/fractal_next1.yaml
 ```

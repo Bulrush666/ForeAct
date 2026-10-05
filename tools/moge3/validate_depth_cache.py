@@ -16,7 +16,7 @@ from moge3_depth.storage import cache_path, load_episodes, validate_episode_cach
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", type=Path, default=Path(__file__).resolve().parent / "configs" / "train.yaml")
+    parser.add_argument("--config", type=Path, default=Path(__file__).resolve().parent / "configs" / "bridge_next1.yaml")
     parser.add_argument("--count", type=int, default=100)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--require-complete", action="store_true")

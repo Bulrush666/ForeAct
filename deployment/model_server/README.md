@@ -41,7 +41,3 @@ At connection time, the server sends metadata including `action_chunk_size`,
 contain `examples` and, for multi-dataset checkpoints, an `unnorm_key`.
 Successful responses expose unnormalized actions at
 `response["data"]["actions"]` with shape `[batch, horizon, action_dim]`.
-
-The optional `server_policy_gr00t_zmq.py` entry point supports compatible
-Isaac-GR00T custom-codec clients. It requires `pyzmq`; see the source docstrings
-for the narrower protocol contract.

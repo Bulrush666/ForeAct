@@ -36,6 +36,3 @@ proprioceptive state, no action ensemble, and an eight-action execution chunk.
 The complete reported protocol and success counts are recorded in
 `configs/evaluation/libero.yaml`. That YAML is an
 auditable experiment record, not a training configuration.
-
-Training data and next-frame depth requirements are documented in
-`FOREACT_TRAINING.md`.

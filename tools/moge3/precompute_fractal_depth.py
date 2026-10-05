@@ -290,7 +290,7 @@ def ensure_run_metadata(
         existing = json.loads(path.read_text(encoding="utf-8"))
         if existing != payload:
             raise ValueError(
-                f"Existing metadata does not match train.yaml: {path}. "
+                f"Existing metadata does not match the selected configuration: {path}. "
                 "Use a new output_root for a different cache contract."
             )
     else:

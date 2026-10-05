@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Launch eight independent Fractal next-frame MoGe-3 cache workers."""
+"""Launch one Fractal next-frame MoGe-3 cache worker per configured GPU."""
 
 from __future__ import annotations
 
@@ -41,8 +41,6 @@ def main() -> None:
         raise ValueError(
             f"distributed.num_workers={expected_workers}, but gpu_ids={gpu_ids}"
         )
-    if expected_workers != 8:
-        raise ValueError("This launch contract expects exactly eight workers/GPUs")
     for path in (python_bin, moge_source, flex_source):
         if not path.exists():
             raise FileNotFoundError(path)

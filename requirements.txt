@@ -30,7 +30,6 @@ diffusers
 timm
 tyro
 websockets
-pyzmq  # GR00T-protocol policy server (deployment/model_server/server_policy_gr00t_zmq.py)
 tdigest==0.5.2.2
 
 # Install torch==2.6.0 and torchvision==0.21.0 for CUDA 12.4 before this file.

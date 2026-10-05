@@ -16,7 +16,13 @@ from moge3_depth.config import load_config, resolve_config_path
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", type=Path, default=Path(__file__).resolve().parent / "configs" / "train.yaml")
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path(__file__).resolve().parent
+        / "configs"
+        / "bridge_next1_reuse.yaml",
+    )
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--limit-episodes-per-worker", type=int, default=None)
     return parser.parse_args()
@@ -41,8 +47,6 @@ def main() -> None:
         raise ValueError(
             f"distributed.num_workers={expected_workers}, but gpu_ids={gpu_ids}"
         )
-    if expected_workers != 4:
-        raise ValueError("This launch contract expects exactly four workers/GPUs")
     for path in (python_bin, moge_source, flex_source):
         if not path.exists():
             raise FileNotFoundError(path)
@@ -50,7 +54,7 @@ def main() -> None:
     output_root.mkdir(parents=True, exist_ok=True)
     launcher_logs = output_root / "logs" / "launcher"
     launcher_logs.mkdir(parents=True, exist_ok=True)
-    script = Path(__file__).resolve().parent / "precompute_bridge_depth.py"
+    script = Path(__file__).resolve().parent / "precompute_bridge_depth_reuse.py"
     processes: list[tuple[subprocess.Popen, object, list[str], str]] = []
     stagger = float(config["distributed"].get("stagger_seconds", 15))
 
@@ -135,3 +139,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

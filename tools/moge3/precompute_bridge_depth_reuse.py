@@ -2,7 +2,7 @@
 """Precompute padded 16-step chunk-end MoGe-3 depth for Bridge/LeRobot.
 
 This program is deliberately offline-only: every model/source/data path comes
-from train.yaml and no from_pretrained repository name is accepted.
+from the selected configuration and no from_pretrained repository name is accepted.
 """
 
 from __future__ import annotations
@@ -43,7 +43,7 @@ LOGGER = logging.getLogger("moge3-precompute")
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", type=Path, default=Path(__file__).resolve().parent / "configs" / "train.yaml")
+    parser.add_argument("--config", type=Path, default=Path(__file__).resolve().parent / "configs" / "bridge_next1_reuse.yaml")
     parser.add_argument("--shard-id", type=int, default=0)
     parser.add_argument("--num-shards", type=int, default=1)
     parser.add_argument("--device", default="cuda:0")
@@ -378,7 +378,7 @@ def ensure_run_metadata(
         existing = json.loads(path.read_text(encoding="utf-8"))
         if existing != payload:
             raise ValueError(
-                f"Existing metadata does not match train.yaml: {path}. "
+                f"Existing metadata does not match the selected configuration: {path}. "
                 "Use a new output_root for a different cache contract."
             )
     else:

@@ -300,7 +300,16 @@ class PolicyServerOverrideTest(unittest.TestCase):
 
         self.assertEqual(args.config_override, ["a.b=false", "x.y=7"])
 
-        seeded = parser.parse_args(["--seed", "42", "--action-seed", "43"])
+        seeded = parser.parse_args(
+            [
+                "--ckpt_path",
+                "/tmp/model.pt",
+                "--seed",
+                "42",
+                "--action-seed",
+                "43",
+            ]
+        )
         self.assertEqual(seeded.seed, 42)
         self.assertEqual(seeded.action_seed, 43)
 
@@ -350,18 +359,24 @@ class PolicyServerOverrideTest(unittest.TestCase):
         self.assertNotIn("do-not-log", rendered_logs)
 
 
-class LiberoLauncherOverrideTest(unittest.TestCase):
-    def _run_launcher(self, use_canonical_forward=None):
-        script = Path("examples/simBenchmarks/LIBERO/eval_files/run_policy_server.sh").resolve()
+class LiberoLauncherContractTest(unittest.TestCase):
+    def _run_launcher(self, **overrides):
+        script = Path(
+            "examples/simBenchmarks/LIBERO/eval_files/run_policy_server.sh"
+        ).resolve()
         with tempfile.TemporaryDirectory() as tmp:
             recorder = Path(tmp) / "record_args.py"
             output = Path(tmp) / "args.txt"
-            recorder.write_text(textwrap.dedent(f"""\
+            recorder.write_text(
+                textwrap.dedent(
+                    f"""\
                     #!/usr/bin/env python3
                     import pathlib
                     import sys
                     pathlib.Path({str(output)!r}).write_text("\\n".join(sys.argv[1:]))
-                    """))
+                    """
+                )
+            )
             recorder.chmod(recorder.stat().st_mode | stat.S_IXUSR)
 
             env = os.environ.copy()
@@ -372,14 +387,10 @@ class LiberoLauncherOverrideTest(unittest.TestCase):
                     "CKPT": "/tmp/model.pt",
                     "GPU_ID": "0",
                     "PORT": "6694",
-                    "USE_BF16": "",
+                    "USE_BF16": "1",
                 }
             )
-            if use_canonical_forward is None:
-                env.pop("USE_CANONICAL_FORWARD", None)
-            else:
-                env["USE_CANONICAL_FORWARD"] = use_canonical_forward
-
+            env.update({key: str(value) for key, value in overrides.items()})
             result = subprocess.run(
                 ["bash", str(script)],
                 cwd=Path.cwd(),
@@ -388,55 +399,41 @@ class LiberoLauncherOverrideTest(unittest.TestCase):
                 text=True,
                 check=False,
             )
-            recorded_args = output.read_text().splitlines() if output.exists() else None
+            recorded_args = (
+                output.read_text().splitlines() if output.exists() else None
+            )
             return result, recorded_args
 
-    def test_use_canonical_forward_false_passes_exact_override(self):
-        result, args = self._run_launcher(use_canonical_forward="false")
+    def test_default_command_matches_public_libero_contract(self):
+        result, args = self._run_launcher()
 
         self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
+        self.assertIn("--ckpt_path", args)
+        self.assertEqual(args[args.index("--ckpt_path") + 1], "/tmp/model.pt")
+        self.assertEqual(args[args.index("--seed") + 1], "42")
+        self.assertEqual(args[args.index("--action-seed") + 1], "42")
         self.assertIn(
-            "Applying config override: " "framework.action_model.diffusion_model_cfg.use_canonical_forward=false",
-            result.stdout,
+            "framework.action_model.num_inference_timesteps=10",
+            args,
         )
-        self.assertIn("--config_override", args)
-        idx = args.index("--config_override")
-        self.assertEqual(
-            args[idx + 1],
-            "framework.action_model.diffusion_model_cfg.use_canonical_forward=false",
-        )
+        self.assertIn("depth.enabled=false", args)
+        self.assertIn("--use_bf16", args)
 
-    def test_use_canonical_forward_true_passes_exact_override(self):
-        result, args = self._run_launcher(use_canonical_forward="true")
+    def test_environment_overrides_seed_denoising_and_precision(self):
+        result, args = self._run_launcher(
+            SEED=7,
+            DENOISE_STEPS=4,
+            USE_BF16="0",
+        )
 
         self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
+        self.assertEqual(args[args.index("--seed") + 1], "7")
+        self.assertEqual(args[args.index("--action-seed") + 1], "7")
         self.assertIn(
-            "Applying config override: " "framework.action_model.diffusion_model_cfg.use_canonical_forward=true",
-            result.stdout,
+            "framework.action_model.num_inference_timesteps=4",
+            args,
         )
-        self.assertIn("--config_override", args)
-        idx = args.index("--config_override")
-        self.assertEqual(
-            args[idx + 1],
-            "framework.action_model.diffusion_model_cfg.use_canonical_forward=true",
-        )
-
-    def test_empty_or_unset_use_canonical_forward_preserves_old_command(self):
-        unset_result, unset_args = self._run_launcher(use_canonical_forward=None)
-        empty_result, empty_args = self._run_launcher(use_canonical_forward="")
-
-        self.assertEqual(unset_result.returncode, 0, msg=unset_result.stdout + unset_result.stderr)
-        self.assertEqual(empty_result.returncode, 0, msg=empty_result.stdout + empty_result.stderr)
-        self.assertNotIn("--config_override", unset_args)
-        self.assertNotIn("--config_override", empty_args)
-        self.assertEqual(unset_args, empty_args)
-
-    def test_invalid_use_canonical_forward_fails_before_server_command(self):
-        result, args = self._run_launcher(use_canonical_forward="flase")
-
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIsNone(args)
-        self.assertIn("USE_CANONICAL_FORWARD must be 'true' or 'false'", result.stderr)
+        self.assertNotIn("--use_bf16", args)
 
 
 if __name__ == "__main__":

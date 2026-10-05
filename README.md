@@ -7,6 +7,14 @@ flow-matching action head. During training, eight learnable geometry tokens are
 supervised with next-frame relative depth. The auxiliary geometry decoder provides training-time supervision for the shared
 representation.
 
+<p align="center">
+  <img src="docs/assets/foreact_pipeline.png" width="100%" alt="ForeAct architecture">
+</p>
+
+<p align="center">
+  <sub>ForeAct architecture. <a href="docs/assets/foreact_pipeline.pdf">View the vector PDF</a>.</sub>
+</p>
+
 ## Method
 
 Given an RGB observation and a language instruction, ForeAct:
@@ -76,9 +84,9 @@ The active data contracts are:
 - LIBERO: the Spatial, Object, Goal and Long suites in LeRobot v3 format, using
   the main camera and suite-specific `t+1` depth caches.
 
-See [`tools/moge3/README.md`](tools/moge3/README.md) for offline depth generation
-and [`examples/simBenchmarks/LIBERO/FOREACT_TRAINING.md`](examples/simBenchmarks/LIBERO/FOREACT_TRAINING.md)
-for the LIBERO data contract.
+See [`tools/moge3/README.md`](tools/moge3/README.md) for offline depth
+generation. The active LIBERO data contract is defined by
+[`configs/train/libero.yaml`](configs/train/libero.yaml).
 
 ## Training
 
@@ -141,7 +149,7 @@ configs/train/            # Bridge and LIBERO training configurations
 configs/evaluation/       # reported evaluation records
 scripts/                  # training, validation and diagnostic entry points
 tools/moge3/              # offline relative-depth preprocessing
-deployment/               # policy server and containers
+deployment/               # policy server
 examples/simBenchmarks/   # benchmark clients
 tests/                    # CPU regression tests
 ```
