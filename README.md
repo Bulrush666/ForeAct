@@ -8,11 +8,9 @@ supervised with next-frame relative depth. The auxiliary geometry decoder provid
 representation.
 
 <p align="center">
-  <img src="docs/assets/foreact_pipeline.png" width="100%" alt="ForeAct architecture">
-</p>
-
-<p align="center">
-  <sub>ForeAct architecture. <a href="docs/assets/foreact_pipeline.pdf">View the vector PDF</a>.</sub>
+  <a href="docs/assets/foreact_pipeline.pdf">
+    <img src="docs/assets/foreact_pipeline.png" width="100%" alt="ForeAct architecture">
+  </a>
 </p>
 
 ## Method
