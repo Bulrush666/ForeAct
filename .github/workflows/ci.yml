@@ -18,7 +18,7 @@ jobs:
       - name: Check public-release hygiene
         run: python scripts/check_public_release.py
       - name: Compile Python sources
-        run: python -m compileall -q foreact scripts deployment tools tests examples/simBenchmarks
+        run: python -m compileall -q foreact scripts deployment tools examples/simBenchmarks
       - name: Check shell syntax
         run: |
           find scripts deployment local_deploy examples/simBenchmarks tools -type f -name '*.sh' -print0 \

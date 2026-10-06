@@ -270,18 +270,6 @@ def _quat2axisangle(quat):
     return (quat[:3] * 2.0 * math.acos(quat[3])) / den
 
 
-def start_debugpy_once():
-    import debugpy
-
-    if getattr(start_debugpy_once, "_started", False):
-        return
-    debug_host = os.getenv("DEBUGPY_HOST", "127.0.0.1")
-    debugpy.listen((debug_host, 10092))
-    print(f"Waiting for VSCode attach on {debug_host}:10092 ...")
-    debugpy.wait_for_client()
-    start_debugpy_once._started = True
-
-
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
@@ -289,6 +277,4 @@ if __name__ == "__main__":
         datefmt="%m/%d [%H:%M:%S]",
         force=True,
     )
-    if os.getenv("DEBUG", False):
-        start_debugpy_once()
     tyro.cli(eval_libero)

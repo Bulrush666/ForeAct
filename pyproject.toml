@@ -38,7 +38,6 @@ dev = [
     "gpustat",
     "ipython",
     "pre-commit",
-    "pytest>=8.0",
     "ruff>=0.2.2",
 ]
 
@@ -46,8 +45,6 @@ dev = [
 [tool.setuptools.packages.find]
 where = ["."]
 exclude = [
-    "tests",         # test directory
-    "tests.*",
     "cache",         # cache directory
     "cache.*",
     "playground",    # playground directory (contains symlinks to Datasets, Models)

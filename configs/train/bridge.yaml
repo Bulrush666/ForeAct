@@ -28,7 +28,6 @@ run_id: *run_name
 run_root_dir: *output_root
 seed: *seed
 version_id: "0.21"
-is_debug: false
 wandb_entity: null
 wandb_project: ForeAct
 

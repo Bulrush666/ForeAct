@@ -484,17 +484,9 @@ class CosmoPredict2_GR00T(baseframework):
 
 if __name__ == "__main__":
     import argparse
-    import os
 
     from omegaconf import OmegaConf
     from PIL import Image
-
-    if os.getenv("DEBUGPY_ENABLE", "0") == "1":
-        import debugpy
-
-        debugpy.listen(("127.0.0.1", 10092))
-        print("Rank 0 waiting for debugger attach on port 10092...")
-        debugpy.wait_for_client()
 
     parser = argparse.ArgumentParser()
     parser.add_argument(

@@ -4,7 +4,6 @@
 
 import argparse
 import logging
-import os
 import random
 import socket
 
@@ -128,24 +127,8 @@ def build_argparser():
     return parser
 
 
-def start_debugpy_once():
-    """start debugpy once"""
-    import debugpy
-
-    if getattr(start_debugpy_once, "_started", False):
-        return
-    debug_host = os.getenv("DEBUGPY_HOST", "127.0.0.1")
-    debugpy.listen((debug_host, 10095))
-    print(f"Waiting for VSCode attach on {debug_host}:10095 ...")
-    debugpy.wait_for_client()
-    start_debugpy_once._started = True
-
-
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, force=True)
     parser = build_argparser()
     args = parser.parse_args()
-    if os.getenv("DEBUG", False):
-        print("🔍 DEBUGPY is enabled")
-        start_debugpy_once()
     main(args)

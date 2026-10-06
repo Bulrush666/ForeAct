@@ -39,6 +39,17 @@ model is needed at deployment.
 The exact evaluation records are stored in [`configs/evaluation/`](configs/evaluation/).
 They document the reported runs and are not training configurations.
 
+## Checkpoints
+
+| Benchmark | Checkpoint | Download |
+| --- | --- | --- |
+| SimplerEnv-Bridge | 50K steps | [bridge_step50000](https://huggingface.co/Bulru1234/ForeAct/tree/main/bridge_step50000) |
+| LIBERO | 100K steps | [libero_step100000](https://huggingface.co/Bulru1234/ForeAct/tree/main/libero_step100000) |
+
+Both releases include model weights, the training configuration, and dataset
+statistics. File checksums are available in
+[`SHA256SUMS`](https://huggingface.co/Bulru1234/ForeAct/blob/main/SHA256SUMS).
+
 ## Installation
 
 The reference environment uses Python 3.10, PyTorch 2.6.0 and CUDA 12.4.
@@ -145,11 +156,10 @@ horizon and post-processing values recorded in `configs/evaluation/`.
 foreact/                  # policy, world model, data pipeline and trainer
 configs/train/            # Bridge and LIBERO training configurations
 configs/evaluation/       # reported evaluation records
-scripts/                  # training, validation and diagnostic entry points
+scripts/                  # training and dataset-validation entry points
 tools/moge3/              # offline relative-depth preprocessing
 deployment/               # policy server
 examples/simBenchmarks/   # benchmark clients
-tests/                    # CPU regression tests
 ```
 
 ## Validation
@@ -158,8 +168,7 @@ The lightweight checks below do not require model weights:
 
 ```bash
 python scripts/check_public_release.py
-python -m compileall -q foreact scripts deployment tools tests
-python -m unittest discover -s tests -v
+python -m compileall -q foreact scripts deployment tools examples/simBenchmarks
 ```
 
 ## Citation
