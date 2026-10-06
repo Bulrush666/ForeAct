@@ -171,6 +171,20 @@ python scripts/check_public_release.py
 python -m compileall -q foreact scripts deployment tools examples/simBenchmarks
 ```
 
+## 🤗 Acknowledgements
+
+We thank the authors of [Video Generation Models are General-Purpose Vision
+Learners](https://genception.github.io/) for the inspiring perspective on
+repurposing video generation models as general-purpose visual representation
+learners. ForeAct builds on the open-source
+[Cosmos-Predict2](https://github.com/nvidia-cosmos/cosmos-predict2) world model
+and uses [MoGe-3](https://github.com/microsoft/MoGe) to generate geometric
+supervision targets during training.
+
+We also thank the teams behind [LIBERO](https://github.com/Lifelong-Robot-Learning/LIBERO)
+and [SimplerEnv](https://github.com/simpler-env/SimplerEnv) for providing the
+benchmarks used to evaluate ForeAct.
+
 ## Citation
 
 Please use the metadata in [`CITATION.cff`](CITATION.cff) when citing the code.
