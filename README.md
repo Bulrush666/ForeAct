@@ -13,7 +13,7 @@ representation.
   </a>
 </p>
 
-## Method
+## 🧠 Method
 
 Given an RGB observation and a language instruction, ForeAct:
 
@@ -29,7 +29,7 @@ Given an RGB observation and a language instruction, ForeAct:
 The depth branch uses offline MoGe-3 targets. No depth image or external geometry
 model is needed at deployment.
 
-## Results
+## 📊 Results
 
 | Benchmark | Evaluation setting | Success rate |
 | --- | --- | ---: |
@@ -39,7 +39,7 @@ model is needed at deployment.
 The exact evaluation records are stored in [`configs/evaluation/`](configs/evaluation/).
 They document the reported runs and are not training configurations.
 
-## Checkpoints
+## 🤗 Checkpoints
 
 | Benchmark | Checkpoint | Download |
 | --- | --- | --- |
@@ -50,7 +50,7 @@ Both releases include model weights, the training configuration, and dataset
 statistics. File checksums are available in
 [`SHA256SUMS`](https://huggingface.co/Bulru1234/ForeAct/blob/main/SHA256SUMS).
 
-## Installation
+## 🛠️ Installation
 
 The reference environment uses Python 3.10, PyTorch 2.6.0 and CUDA 12.4.
 
@@ -75,7 +75,7 @@ source .env
 set +a
 ```
 
-## Required assets
+## 📦 Required Assets
 
 ForeAct expects the following resources to remain outside Git:
 
@@ -97,12 +97,12 @@ See [`tools/moge3/README.md`](tools/moge3/README.md) for offline depth
 generation. The active LIBERO data contract is defined by
 [`configs/train/libero.yaml`](configs/train/libero.yaml).
 
-## Training
+## 🚀 Training
 
 Training configurations live in `configs/train/`. Machine-specific paths can be
 overridden through the variables in `.env.example`.
 
-### Bridge
+### 🌉 Bridge
 
 ```bash
 # Validate the command without starting workers.
@@ -112,7 +112,7 @@ DRY_RUN=1 bash scripts/train_bridge.sh
 bash scripts/train_bridge.sh
 ```
 
-### LIBERO
+### 🤖 LIBERO
 
 ```bash
 # Validate metadata and cache layout.
@@ -127,7 +127,7 @@ Common overrides include `MODEL_DIR`, `DATA_ROOT_DIR`, `DEPTH_CACHE_ROOT`,
 `OUTPUT_ROOT`, `GPU_IDS`, `PER_DEVICE_BATCH_SIZE`, `NUM_WORKERS`, `MAX_STEPS` and
 `SEED`.
 
-## Evaluation
+## 🧪 Evaluation
 
 Start the policy server with a trained checkpoint:
 
@@ -150,7 +150,7 @@ Simulator dependencies are installed separately from the policy environment.
 Before reporting a number, match the checkpoint, denoising steps, seed, execution
 horizon and post-processing values recorded in `configs/evaluation/`.
 
-## Repository layout
+## 🗂️ Repository Layout
 
 ```text
 foreact/                  # policy, world model, data pipeline and trainer
@@ -162,7 +162,7 @@ deployment/               # policy server
 examples/simBenchmarks/   # benchmark clients
 ```
 
-## Validation
+## ✅ Validation
 
 The lightweight checks below do not require model weights:
 
@@ -185,12 +185,12 @@ We also thank the teams behind [LIBERO](https://github.com/Lifelong-Robot-Learni
 and [SimplerEnv](https://github.com/simpler-env/SimplerEnv) for providing the
 benchmarks used to evaluate ForeAct.
 
-## Citation
+## ⭐ Citation
 
 Please use the metadata in [`CITATION.cff`](CITATION.cff) when citing the code.
 Paper citation information can be added there after publication.
 
-## License
+## 📄 License
 
 This repository is distributed under the terms in [`LICENSE`](LICENSE). It also
 contains components derived from third-party projects; their original copyright
