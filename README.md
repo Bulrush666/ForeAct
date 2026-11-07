@@ -1,9 +1,5 @@
-<p align="center">
-  <img src="docs/assets/foreact-title.svg" width="180" height="52" alt="ForeAct">
-</p>
-
 <h1 align="center">
-  Geometry-Guided Action Learning<br>
+  <img src="docs/assets/foreact-title.svg" width="132" height="32" alt="ForeAct:"> Geometry-Guided Action Learning<br>
   from World Representations
 </h1>
 
