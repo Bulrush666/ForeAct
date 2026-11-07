@@ -7,6 +7,8 @@ flow-matching action head. During training, eight learnable geometry tokens are
 supervised with next-frame relative depth. The auxiliary geometry decoder provides training-time supervision for the shared
 representation.
 
+[▶ Watch the ForeAct demo (MP4)](docs/assets/ForeAct_v2.mp4)
+
 <p align="center">
   <a href="docs/assets/foreact_pipeline.pdf">
     <img src="docs/assets/foreact_pipeline.png" width="100%" alt="ForeAct architecture">
