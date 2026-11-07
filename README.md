@@ -7,6 +7,7 @@
   <a href="https://arxiv.org/">
     <img src="https://img.shields.io/badge/arXiv-Paper-b31b1b" height="20" alt="arXiv">
   </a>
+  &nbsp;&nbsp;
   <a href="https://huggingface.co/Bulru1234/ForeAct">
     <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-ffd21e" height="20" alt="Hugging Face Models">
   </a>
