@@ -3,6 +3,15 @@
   from World Representations
 </h1>
 
+<p align="center">
+  <a href="https://arxiv.org/">
+    <img src="https://img.shields.io/badge/arXiv-Paper-df2a2a.svg?style=for-the-badge" alt="arXiv">
+  </a>
+  <a href="https://huggingface.co/Bulru1234/ForeAct">
+    <img src="https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-yellow?style=for-the-badge" alt="Hugging Face">
+  </a>
+</p>
+
 ForeAct is a geometry-aware vision-language-action policy for efficient robot
 manipulation. It reuses a pretrained video world model as a single-pass visual
 representation backbone and predicts continuous action chunks with a
