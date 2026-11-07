@@ -13,20 +13,6 @@ representation.
   </a>
 </p>
 
-## 🧠 Method
-
-A frozen video VAE encodes the current RGB observation, and a frozen text
-encoder embeds the language instruction. Conditioned on that instruction, the
-pretrained world model jointly updates the visual tokens and eight learnable
-geometry tokens in a single bidirectional pass. A flow-matching ActionDiT uses
-the resulting visual features to predict a chunk of continuous actions.
-
-During training, an auxiliary branch combines the geometry tokens with features
-from the current observation to predict the next frame's relative depth. MoGe-3
-generates the depth targets offline. This supervision shapes the shared world
-model representation. At deployment, action prediction requires no depth
-observations or external depth estimator.
-
 ## 📊 Results
 
 | Benchmark | Evaluation setting | Success rate |
