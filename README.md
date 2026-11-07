@@ -15,19 +15,17 @@ representation.
 
 ## 🧠 Method
 
-Given an RGB observation and a language instruction, ForeAct:
+A frozen video VAE encodes the current RGB observation, and a frozen text
+encoder embeds the language instruction. Conditioned on that instruction, the
+pretrained world model jointly updates the visual tokens and eight learnable
+geometry tokens in a single bidirectional pass. A flow-matching ActionDiT uses
+the resulting visual features to predict a chunk of continuous actions.
 
-1. encodes the image with a frozen video VAE and the instruction with a frozen
-   text encoder;
-2. processes visual tokens together with eight learnable geometry tokens in one
-   bidirectional world-model pass;
-3. conditions an ActionDiT on the resulting visual representation to predict a
-   continuous action chunk;
-4. decodes the geometry tokens into the next-frame relative depth during
-   training only.
-
-The depth branch uses offline MoGe-3 targets. No depth image or external geometry
-model is needed at deployment.
+During training, an auxiliary branch combines the geometry tokens with features
+from the current observation to predict the next frame's relative depth. MoGe-3
+generates the depth targets offline. This supervision shapes the shared world
+model representation. At deployment, action prediction requires no depth
+observations or external depth estimator.
 
 ## 📊 Results
 
