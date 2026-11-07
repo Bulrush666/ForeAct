@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="113" height="32" viewBox="0 0 113 32" role="img" aria-labelledby="title">
+  <title id="title">ForeAct</title>
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .fore { fill: #8ab4f8; }
+      .act { fill: #cb9de1; }
+    }
+  </style>
+  <text x="0" y="30" font-family="Arial, sans-serif" font-size="32" font-weight="600" textLength="111" lengthAdjust="spacingAndGlyphs"><tspan class="fore" fill="#3865AC">Fore</tspan><tspan class="act" fill="#743C91">Act</tspan></text>
+</svg>
