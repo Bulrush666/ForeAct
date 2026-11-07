@@ -1,4 +1,11 @@
-# ![ForeAct:](docs/assets/foreact-title.svg) Geometry-Guided Action Learning from World Representations
+<p align="center">
+  <img src="docs/assets/foreact-title.svg" width="180" height="52" alt="ForeAct">
+</p>
+
+<h1 align="center">
+  Geometry-Guided Action Learning<br>
+  from World Representations
+</h1>
 
 ForeAct is a geometry-aware vision-language-action policy for efficient robot
 manipulation. It reuses a pretrained video world model as a single-pass visual
