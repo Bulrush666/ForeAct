@@ -5,10 +5,10 @@
 
 <p align="center">
   <a href="https://arxiv.org/">
-    <img src="https://img.shields.io/badge/arXiv-Paper-df2a2a.svg?style=for-the-badge" alt="arXiv">
+    <img src="https://img.shields.io/badge/arXiv-Paper-b31b1b" height="20" alt="arXiv">
   </a>
   <a href="https://huggingface.co/Bulru1234/ForeAct">
-    <img src="https://img.shields.io/badge/%F0%9F%A4%97-Hugging%20Face-yellow?style=for-the-badge" alt="Hugging Face">
+    <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-ffd21e" height="20" alt="Hugging Face Models">
   </a>
 </p>
 
