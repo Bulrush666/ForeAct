@@ -18,8 +18,7 @@
 </p>
 
 <p align="center">
-  <sup>1</sup>The Hong Kong University of Science and Technology (Guangzhou)<br>
-  <sup>2</sup>JD Explore Academy<br>
+  <sup>1</sup>HKUST(GZ)&thinsp;·&thinsp;<sup>2</sup>JD Explore Academy<br>
   <sub>* Equal contribution · † Corresponding author</sub>
 </p>
 
