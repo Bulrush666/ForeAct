@@ -4,6 +4,26 @@
 </h1>
 
 <p align="center">
+  <strong>Wei Lu</strong><sup>1,*</sup> &nbsp;
+  <strong>Jiaxi Zhang</strong><sup>1,*</sup> &nbsp;
+  <strong>Yunheng Wang</strong><sup>1,*</sup> &nbsp;
+  Taowen Wang<sup>1</sup> &nbsp;
+  Yuetong Fang<sup>1</sup> &nbsp;
+  Zhenhui Zhang<sup>1</sup><br>
+  Shuning Zhang<sup>1</sup> &nbsp;
+  Zizhao Yuan<sup>1</sup> &nbsp;
+  Yixiao Feng<sup>1</sup> &nbsp;
+  Zecui Zeng<sup>2</sup> &nbsp;
+  Renjing Xu<sup>1,†</sup>
+</p>
+
+<p align="center">
+  <sup>1</sup>The Hong Kong University of Science and Technology (Guangzhou)<br>
+  <sup>2</sup>JD Explore Academy<br>
+  <sub>* Equal contribution · † Corresponding author</sub>
+</p>
+
+<p align="center">
   <a href="https://arxiv.org/">
     <img src="https://img.shields.io/badge/arXiv-Paper-b31b1b" height="20" alt="arXiv">
   </a>
