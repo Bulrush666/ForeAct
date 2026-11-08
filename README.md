@@ -13,13 +13,13 @@
   Shuning Zhang<sup>1</sup> &nbsp;
   Zizhao Yuan<sup>1</sup> &nbsp;
   Yixiao Feng<sup>1</sup> &nbsp;
-  Zecui Zeng<sup>2</sup> &nbsp;
+  Zecui Zeng<sup>2,†</sup> &nbsp;
   Renjing Xu<sup>1,†</sup>
 </p>
 
 <p align="center">
   <sup>1</sup>HKUST(GZ)&thinsp;·&thinsp;<sup>2</sup>JD Explore Academy<br>
-  <sub>* Equal contribution · † Corresponding author</sub>
+  <sub>* Equal contribution · † Co-corresponding authors</sub>
 </p>
 
 <p align="center">
