@@ -23,7 +23,7 @@
 </p>
 
 <p align="center">
-  <a href="https://arxiv.org/">
+  <a href="https://arxiv.org/abs/2611.11500">
     <img src="https://img.shields.io/badge/arXiv-Paper-b31b1b" height="20" alt="arXiv">
   </a>
   &nbsp;&nbsp;
@@ -203,8 +203,24 @@ benchmarks used to evaluate ForeAct.
 
 ## ⭐ Citation
 
-Please use the metadata in [`CITATION.cff`](CITATION.cff) when citing the code.
-Paper citation information can be added there after publication.
+If you find ForeAct useful in your research, please cite our [paper](https://arxiv.org/abs/2611.11500):
+
+```bibtex
+@misc{lu2026foreact,
+  title         = {{ForeAct}: Geometry-Guided Action Learning from World Representations},
+  author        = {Wei Lu and Jiaxi Zhang and Yunheng Wang and Taowen Wang and
+                   Yuetong Fang and Zhenhui Zhang and Shuning Zhang and Zizhao Yuan and
+                   Yixiao Feng and Zecui Zeng and Renjing Xu},
+  year          = {2026},
+  eprint        = {2611.11500},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  doi           = {10.48550/arXiv.2611.11500},
+  url           = {https://arxiv.org/abs/2611.11500}
+}
+```
+
+Citation metadata is also available in [`CITATION.cff`](CITATION.cff).
 
 ## 📄 License
 

@@ -5,10 +5,59 @@ message: >-
   repository.
 type: software
 authors:
+  - family-names: Lu
+    given-names: Wei
   - family-names: Zhang
     given-names: Jiaxi
   - family-names: Wang
     given-names: Yunheng
+  - family-names: Wang
+    given-names: Taowen
+  - family-names: Fang
+    given-names: Yuetong
+  - family-names: Zhang
+    given-names: Zhenhui
+  - family-names: Zhang
+    given-names: Shuning
+  - family-names: Yuan
+    given-names: Zizhao
+  - family-names: Feng
+    given-names: Yixiao
+  - family-names: Zeng
+    given-names: Zecui
+  - family-names: Xu
+    given-names: Renjing
+repository-code: https://github.com/Bulrush666/ForeAct
+preferred-citation:
+  type: article
+  title: 'ForeAct: Geometry-Guided Action Learning from World Representations'
+  authors:
+    - family-names: Lu
+      given-names: Wei
+    - family-names: Zhang
+      given-names: Jiaxi
+    - family-names: Wang
+      given-names: Yunheng
+    - family-names: Wang
+      given-names: Taowen
+    - family-names: Fang
+      given-names: Yuetong
+    - family-names: Zhang
+      given-names: Zhenhui
+    - family-names: Zhang
+      given-names: Shuning
+    - family-names: Yuan
+      given-names: Zizhao
+    - family-names: Feng
+      given-names: Yixiao
+    - family-names: Zeng
+      given-names: Zecui
+    - family-names: Xu
+      given-names: Renjing
+  year: 2026
+  journal: arXiv
+  doi: 10.48550/arXiv.2611.11500
+  url: https://arxiv.org/abs/2611.11500
 abstract: >-
   ForeAct is a geometry-aware vision-language-action policy that uses a
   pretrained video world model for single-pass visual representation learning
